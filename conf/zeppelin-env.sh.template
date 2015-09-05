@@ -59,3 +59,5 @@
 # export ZEPPELIN_SPARK_CONCURRENTSQL   # Execute multiple SQL concurrently if set true. false by default.
 # export ZEPPELIN_SPARK_MAXRESULT       # Max number of SparkSQL result to display. 1000 by default.
 
+# SparkR (supported with Spark 1.4 and above)
+# To use SparkR, you need to set the 'spark.home' property in Interpreter settings

@@ -88,6 +88,7 @@
     <module>zeppelin-zengine</module>
     <module>spark-dependencies</module>
     <module>spark</module>
+    <module>r</module>
     <module>markdown</module>
     <module>angular</module>
     <module>shell</module>
@@ -407,6 +408,7 @@
               <exclude>**/*.keywords</exclude>
               <exclude>**/.idea/</exclude>
               <exclude>**/*.iml</exclude>
+              <exclude>R/**</exclude>
               <exclude>.git/</exclude>
               <exclude>.gitignore</exclude>
               <exclude>.repository/</exclude>
