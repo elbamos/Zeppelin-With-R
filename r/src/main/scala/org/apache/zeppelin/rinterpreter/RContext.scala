@@ -353,12 +353,17 @@ object RContext {
 
   private[rinterpreter] var lastRContext : Option[RContext] = None
 
-  private[rinterpreter] def resetRcon() : Unit = {
-    lastRContext match {
-      case Some(x : RContext) => x.close()
-      case None => {}
-    }
+  private[rinterpreter] def resetRcon() : Boolean = {
+    val rcon : Option[RContext] = lastRContext
     lastRContext = None
+    rcon match {
+      case Some(x : RContext) => {
+        x.close()
+        if (x.isOpen) throw new RuntimeException("Failed to close an existing RContext")
+        true
+      }
+      case None => {false}
+    }
   }
 
   def apply( property: Properties): RContext = synchronized {

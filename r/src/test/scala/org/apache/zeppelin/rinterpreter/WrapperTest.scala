@@ -58,9 +58,9 @@ class WrapperTest extends FlatSpec {
       knitr.getInnerInterpreter shouldBe a [KnitRInterpreter]
     }
 
-  it should "share the RContext, but we can fix this later" in {pending}
-//    knitr.getInnerInterpreter.asInstanceOf[KnitRInterpreter].getrContext should be theSameInstanceAs repi.getrContext
-//  }
+  it should "share the RContext, but we can fix this later" in {
+    knitr.getInnerInterpreter.asInstanceOf[KnitRInterpreter].getrContext should be theSameInstanceAs repi.getrContext
+  }
 
   it should "open without error" in {
     knitr.open()
@@ -82,6 +82,19 @@ class WrapperTest extends FlatSpec {
     }
   }
 
-  repi.getrContext.close()
+  it should "close properly" in {
+    repi.getrContext.close()
+    assertResult(false) {
+      repi.getrContext.isOpen
+    }
+  }
+
+  "Just in case there are two rContexts, the other one" should "close properly also" in {
+    val rcon = knitr.getInnerInterpreter.asInstanceOf[KnitRInterpreter].getrContext
+    rcon.close()
+    assertResult(false) {
+      rcon.isOpen
+    }
+  }
 
 }

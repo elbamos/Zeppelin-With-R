@@ -167,24 +167,7 @@
     <profiles>
 
 
-        <profile>
-            <id>spark-1.4</id>
-            <properties>
-                <spark.version>1.4.1</spark.version>
-            </properties>
 
-            <dependencies>
-                <dependency>
-                <groupId>org.apache.spark</groupId>
-                <artifactId>spark-core_${scala.binary.version}</artifactId>
-                <version>[1.4.0,)</version>
-                <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-
-    </profiles>
 
 
     <build>

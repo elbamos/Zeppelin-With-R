@@ -387,6 +387,50 @@ class RSparkTest extends FlatSpec with GeneratorDrivenPropertyChecks {
 //    }
 //  }
 
+  "the RREPL Interpreter" should "produce an error if a command is garbage"  taggedAs(RTest) in {
+    assume(rcon.isOpen)
+    val intr : InterpreterResult = rrepl.interpret("2 %= henry", null)
+    withClue(intr.message) {
+      intr should have ('code (InterpreterResult.Code.ERROR),
+        'type (InterpreterResult.Type.TEXT))
+    }
+  }
+  it should "execute a simple command successfully"  taggedAs(RTest) in {
+    assume(rcon.isOpen)
+    val intr : InterpreterResult = rrepl.interpret("2 + 2", null)
+    withClue(intr.message) {
+      intr should have('code (InterpreterResult.Code.SUCCESS),
+        'type (InterpreterResult.Type.TEXT))
+    }
+  }
+
+  it should "handle a plot"  taggedAs(RTest) in {
+    assume(rcon.isOpen)
+    val intr : InterpreterResult = rrepl.interpret("hist(rnorm(100))", null)
+    withClue(intr.message) {
+      intr should have('type (InterpreterResult.Type.IMG), 'code (InterpreterResult.Code.SUCCESS))
+    }
+  }
+  //TODO:  Test the HTML parser
+  it should "handle a data.frame"  taggedAs(RTest) in {
+    assume(rcon.isOpen)
+    assume(rcon.testRPackage("evaluate"))
+    val intr : InterpreterResult = rrepl.interpret("data.frame(coming = rnorm(100), going = rnorm(100))", null)
+    withClue(intr.message) {
+      intr should have('type (InterpreterResult.Type.TABLE), 'code (InterpreterResult.Code.SUCCESS))
+    }
+  }
+
+  // Not testing because requires repr and base64enc
+
+  //  it should "handle an image" in {
+  //    val repl = fixture.repl
+  //    val int : InterpreterResult = repl.interpret("hist(rnorm(100))", null)
+  //    assert(int.`type`() == InterpreterResult.Type.IMG)
+  //  }
+
+
+
   "The RContext" should "close politely" taggedAs(SparkTest)  in {
     assume(rcon.isOpen)
     rcon.backend.close()

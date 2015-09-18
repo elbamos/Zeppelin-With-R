@@ -68,7 +68,7 @@ class RContextInitTest extends FlatSpec {
     assert(true)
   }
   var libpath : String = null
-  "RZeppeling R Package" should "be found" in {
+  "RZeppelin R Package" should "be found" in {
     libpath  = if (Files.exists(Paths.get("R/lib"))) "R/lib"
     else if (Files.exists(Paths.get("../R/lib"))) "../R/lib"
     else throw new RuntimeException("Could not find rzeppelin - it must be in either R/lib or ../R/lib")
@@ -110,6 +110,8 @@ q(save='no')"""
   }
   "An open RContext" should "destroy safely" in {
     rcon.close()
-    assert(true)
+    assertResult(false) {
+      rcon.isOpen
+    }
   }
 }
