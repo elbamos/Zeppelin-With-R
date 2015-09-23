@@ -77,6 +77,9 @@ if [[ "${INTERPRETER_ID}" == "spark" ]]; then
     SPARK_APP_JAR="$(ls ${ZEPPELIN_HOME}/interpreter/spark/zeppelin-spark*.jar)"
     # This will evantually passes SPARK_APP_JAR to classpath of SparkIMain
     ZEPPELIN_CLASSPATH=${SPARK_APP_JAR}
+    # Need to add the R Interpreter
+    RZEPPELINPATH="$(ls ${ZEPPELIN_HOME}/interpreter/spark/zeppelin-zr*.jar)"
+    ZEPPELIN_CLASSPATH="${RZEPPELINPATH}:${ZEPPELIN_CLASSPATH}"
 
     export PYTHONPATH="$SPARK_HOME/python/:$PYTHONPATH"
     export PYTHONPATH="$SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip:$PYTHONPATH"    

@@ -58,7 +58,7 @@ class WrapperTest extends FlatSpec {
       knitr.getInnerInterpreter shouldBe a [KnitRInterpreter]
     }
 
-  it should "share the RContext, but we can fix this later" in {
+  it should "share the RContext" in {
     knitr.getInnerInterpreter.asInstanceOf[KnitRInterpreter].getrContext should be theSameInstanceAs repi.getrContext
   }
 

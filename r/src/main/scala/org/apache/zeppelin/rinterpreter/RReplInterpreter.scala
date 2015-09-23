@@ -49,13 +49,16 @@ class RReplInterpreter(property: Properties, startSpark : Boolean = true) extend
         val result: String = List.range(1, reslength + 1).map((i: Int) => {
           rContext.evalS1(s"class(.zreplout[[${i}]])") match {
             case x: Array[String] if x contains ("recordedplot") => {
+              if (!rContext.testRPackage("repr", fail = false)) return new InterpreterResult(InterpreterResult.Code.ERROR,
+                InterpreterResult.Type.TEXT,
+                "Displaying images through the R REPL requires the repr package, which is not installed.")
               val image: String = rContext.evalS0(s"base64enc:::base64encode(repr:::repr_jpg(.zreplout[[${i}]]))")
               return new InterpreterResult(InterpreterResult.Code.SUCCESS,
                 InterpreterResult.Type.IMG, image)
             }
             //TODO: If the html contains a link to a file, transform it to a DataURI.  This is necessary for htmlwidgets
             case x: Array[String] if x contains ("html") => {
-              var html: String = RInterpreter.processHTML(rContext.evalS0(s"repr(.zreplout[[${i}]])"))
+              val html: String = RInterpreter.processHTML(rContext.evalS0(s"rzeppelin:::.z.repr(.zreplout[[${i}]])"))
 
               return new InterpreterResult(InterpreterResult.Code.SUCCESS,
                 InterpreterResult.Type.HTML, html)
@@ -70,14 +73,15 @@ class RReplInterpreter(property: Properties, startSpark : Boolean = true) extend
             case x: Array[String] if x contains "source" => rContext.evalS0(s".zreplout[[${i}]]" + "$src")
 
             case x: Array[String] if x contains "character" => addDebug(x, rContext.evalS0(s".zreplout[[${i}]]"))
-
+            case x: Array[String] if x contains "packageStartupMessage" => "Package Startup Message: " +
+              rContext.evalS1(s"rzeppelin:::.z.repr(.zreplout[[${i}]])").mkString("\n")
             case x: Array[String] if x contains "simpleError" => {
               gotError = true
-              val error = rContext.evalS1(s"repr(.zreplout[[${i}]])").mkString("\n")
+              val error = rContext.evalS1(s"rzeppelin:::.z.repr(.zreplout[[${i}]])").mkString("\n")
               logger.error(error)
               error
             }
-            case _ => rContext.evalS1(s"repr(.zreplout[[${i}]])").mkString("\n")
+            case _ => rContext.evalS1(s"rzeppelin:::.z.repr(.zreplout[[${i}]])").mkString("\n")
 
           }
         }).mkString("\n\n")

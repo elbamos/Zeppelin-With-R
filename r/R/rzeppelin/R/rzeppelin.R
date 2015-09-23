@@ -90,13 +90,14 @@
   SparkR:::callJMethod(.zeppelinContext, "put", name, object)
  }
 
+ .z.repr <- function(x) {
+    if (require(repr)) repr:::repr(x)
+    else toString(x)
+ }
+
 progress_zeppelin <- function(...) {
   list(init = function(x) .z.setProgress(0),
     step = function() .z.incrementProgress,
     term = function() {})
  }
 
-# To put an RDD:
-# the parallelize function ships data to a "create RDD" static in java, which creates an RDD, and what's returned is a jobj.
-# So, to put a raw RDD, all that would be necessary is to identify the object matching the jobj.
-# And to get an RDD, that's just a jobj!  Well, a jobj + a serialization method anyway.
