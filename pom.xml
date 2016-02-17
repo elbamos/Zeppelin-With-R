@@ -300,7 +300,6 @@
               <excludes>org/apache/zeppelin/interpreter/thrift/*</excludes>
             </configuration>
           </execution>
-
         </executions>
       </plugin>
 
@@ -462,6 +461,7 @@
               <exclude>**/*.avsc</exclude>
               <exclude>**/*.avro</exclude>
               <exclude>**/*.log</exclude>
+              <exclude>**/R/**</exclude>
               <exclude>**/test/resources/**</exclude>
               <exclude>**/.settings/*</exclude>
               <exclude>**/.classpath</exclude>
@@ -660,6 +660,13 @@
       <id>geode</id>
       <modules>
         <module>geode</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>r</id>
+      <modules>
+        <module>r</module>
       </modules>
     </profile>
 
