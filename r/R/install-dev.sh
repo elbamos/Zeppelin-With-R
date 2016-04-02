@@ -38,4 +38,6 @@ pushd $FWDIR > /dev/null
 R CMD INSTALL --library=$LIB_DIR $FWDIR/rzeppelin/
 
 popd > /dev/null
+
 set +x
+
