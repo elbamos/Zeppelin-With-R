@@ -56,15 +56,12 @@ addons:
     - r-cran-evaluate
     - r-cran-base64enc
 
-
 before_install:
-  - mkdir -p ~/Rlib
-  - echo 'R_LIBS_USER=~/Rlib' > .Renviron
+  - mkdir -p ~/R
+  - echo 'R_LIBS_USER=~/R' > .Renviron
   - echo 'options(repos = "http://cran.us.r-project.org")' > .Rprofile
   - R --version
   - R -e "install.packages('knitr')"
-  - R -e "install.packages('evaluate')"
-  - R -e "install.packages('base64enc')"
   - R -e "install.packages('devtools')"
   - R -e "devtools::install_github('IRkernel/repr')"
   - "export DISPLAY=:99.0"
