@@ -57,7 +57,7 @@ To install this build of Zeppelin with the R interpreter, after installing depen
 ```sh
 git clone https://github.com/elbamos/Zeppelin-With-R.git
 cd Zeppelin-With-R
-mvn package install -DskipTests
+mvn package install -Pr -DskipTests
 ```
 
 To run Zeppelin with the R Interpreter, zeppelin must be started with the SPARK_HOME environment variable properly set. The best way to do this is by editing `conf/zeppelin-env.sh`. 
